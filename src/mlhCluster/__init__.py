@@ -6,7 +6,7 @@ from sklearn import metrics
 def two_layers_cluster(linkage, outer_distence_threshold, inner_distence_threshold):
     if outer_distence_threshold >= inner_distence_threshold:
         raise Exception("outer_distence_threshold must small than inner_distence_threshold")
-    root, Node_list = k_cluster.to_tree(linkage)
+    _, Node_list = k_cluster.to_tree(linkage)
     k_cluster.compress_tree(Node_list, outer_distence_threshold)
     outer_relation = k_cluster.gen_classes(Node_list,outer_distence_threshold)
     k_cluster.clean_tree(Node_list,outer_distence_threshold)
@@ -112,7 +112,7 @@ def __map_by_dict(dic, value):
     return None
 
 
-def evaluate(flated_dict, map, truth_table):
+def adj_rand_index(flated_dict, map, truth_table):
     # process pre_label
     outer_truth_label = []
     for i in flated_dict['index']:
@@ -132,4 +132,9 @@ def evaluate(flated_dict, map, truth_table):
     # adj_rand
     outer_score = metrics.adjusted_rand_score(flated_dict["outer"], outer_truth_label)
     inner_score = metrics.adjusted_rand_score(flated_dict["inner"], inner_truth_label)
+    return {"outer_score": outer_score, "inner_score": inner_score}
+
+def Silhouette_index(flated_dict, vecs, distance_metric):
+    outer_score = metrics.silhouette_score(vecs, flated_dict["outer"], metric=distance_metric)
+    inner_score = metrics.silhouette_score(vecs, flated_dict["inner"], metric=distance_metric)
     return {"outer_score": outer_score, "inner_score": inner_score}
