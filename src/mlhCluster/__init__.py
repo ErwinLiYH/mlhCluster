@@ -134,7 +134,6 @@ def adj_rand_index(flated_dict, map, truth_table):
     inner_score = metrics.adjusted_rand_score(flated_dict["inner"], inner_truth_label)
     return {"outer_score": outer_score, "inner_score": inner_score}
 
-# def Silhouette_index(flated_dict, vecs, distance_metric):
-#     outer_score = metrics.silhouette_score(vecs, flated_dict["outer"], metric=distance_metric)
-#     inner_score = metrics.silhouette_score(vecs, flated_dict["inner"], metric=distance_metric)
-#     return {"outer_score": outer_score, "inner_score": inner_score}
+def outer_silhouette_index(flated_dict, vecs, distance_metric):
+    outer_vecs = vecs[flated_dict["index"]]
+    return metrics.silhouette_score(outer_vecs, flated_dict["outer"], metric=distance_metric)
