@@ -40,7 +40,7 @@ def remove_duplicate(outer_relation, inner_relation, total_number, group_number,
         temp = []
         for j in range(i, i+group_number):
             temp.append(__search_outer_and_inner_relation(outer_relation, inner_relation, j))
-        appear_list, count_list = __conclude_list([i[0:2] for i in temp])
+        appear_list, count_list = __conclude_list([relation[0:2] for relation in temp])
         if remove_mode=='full':
             max_item = ksort.sort_multi_list(appear_list, count_list, by=1)[0][0]
             count = 0
@@ -134,7 +134,7 @@ def adj_rand_index(flated_dict, map, truth_table):
     inner_score = metrics.adjusted_rand_score(flated_dict["inner"], inner_truth_label)
     return {"outer_score": outer_score, "inner_score": inner_score}
 
-def Silhouette_index(flated_dict, vecs, distance_metric):
-    outer_score = metrics.silhouette_score(vecs, flated_dict["outer"], metric=distance_metric)
-    inner_score = metrics.silhouette_score(vecs, flated_dict["inner"], metric=distance_metric)
-    return {"outer_score": outer_score, "inner_score": inner_score}
+# def Silhouette_index(flated_dict, vecs, distance_metric):
+#     outer_score = metrics.silhouette_score(vecs, flated_dict["outer"], metric=distance_metric)
+#     inner_score = metrics.silhouette_score(vecs, flated_dict["inner"], metric=distance_metric)
+#     return {"outer_score": outer_score, "inner_score": inner_score}
