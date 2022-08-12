@@ -153,7 +153,7 @@ def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="a
     # determine outer layer
     outer_num = []
     outer_distance_threshold_list = []
-    outer_silhouette_score = []
+    # outer_silhouette_score = []
     outer_distortion_score = []
     for i in np.arange(start,end,step):
         outer_relation, inner_relation = cluster(linkage_matrix, i, 2)
@@ -163,11 +163,11 @@ def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="a
             if num_of_clusters not in outer_num:
                 outer_num.append(num_of_clusters)
                 outer_distortion_score.append(m2.distortion_score(vecs, flated_dict["outer"], linkage_metric))
-                outer_silhouette_score.append(m1.silhouette_score(vecs, flated_dict["outer"], metric=linkage_metric))
+                # outer_silhouette_score.append(m1.silhouette_score(vecs, flated_dict["outer"], metric=linkage_metric))
                 outer_distance_threshold_list.append(i)
     outer_num.reverse()
     outer_distance_threshold_list.reverse()
-    outer_silhouette_score.reverse()
+    # outer_silhouette_score.reverse()
     outer_distortion_score.reverse()
     elbow_locator = KneeLocator(outer_num, outer_distortion_score, curve="convex", direction="decreasing", online=online)
     # elbow_locator = KneeLocator(outer_num, outer_distortion_score, curve_nature="convex", curve_direction="decreasing")
@@ -194,7 +194,7 @@ def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="a
     # determine inner layer
     inner_num = []
     inner_distance_threshold_list = []
-    inner_silhouette_score = []
+    # inner_silhouette_score = []
     inner_distortion_score = []
     for i in np.arange(outer_distance+step,end,step):
         outer_relation, inner_relation = cluster(linkage_matrix, outer_distance, i)
@@ -204,11 +204,11 @@ def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="a
             if num_of_clusters not in inner_num:
                 inner_num.append(num_of_clusters)
                 inner_distortion_score.append(m2.distortion_score(vecs, flated_dict["inner"], linkage_metric))
-                inner_silhouette_score.append(m1.silhouette_score(vecs, flated_dict["inner"], metric=linkage_metric))
+                # inner_silhouette_score.append(m1.silhouette_score(vecs, flated_dict["inner"], metric=linkage_metric))
                 inner_distance_threshold_list.append(i)
     inner_num.reverse()
     inner_distance_threshold_list.reverse()
-    inner_silhouette_score.reverse()
+    # inner_silhouette_score.reverse()
     inner_distortion_score.reverse()
     elbow_locator = KneeLocator(inner_num, inner_distortion_score, curve="convex", direction="decreasing", online=online)
     # elbow_locator = KneeLocator(inner_num, inner_distortion_score, curve_nature="convex", curve_direction="decreasing")
@@ -235,4 +235,4 @@ def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="a
     plt.show()
     if img_path!=None:
         fig.savefig(img_path, dpi=dpi)
-    return outer_distance, inner_distance, {"cluster_num": outer_num, "distance": outer_distance_threshold_list, "silhouette": outer_silhouette_score, "distortion": outer_distortion_score}, {"cluster_num": inner_num, "distance": inner_distance_threshold_list, "silhouette": inner_silhouette_score, "distortion": inner_distortion_score}
+    return outer_distance, inner_distance, {"cluster_num": outer_num, "distance": outer_distance_threshold_list, "distortion": outer_distortion_score}, {"cluster_num": inner_num, "distance": inner_distance_threshold_list, "distortion": inner_distortion_score}
