@@ -146,7 +146,7 @@ def outer_silhouette_index(flated_dict, vecs, distance_metric):
     outer_vecs = vecs[flated_dict["index"]]
     return m1.silhouette_score(outer_vecs, flated_dict["outer"], metric=distance_metric)
 
-def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="average", start=0, end=1, step=0.001, figsize=(10,16), img_path=None, dpi=600):
+def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="average", start=0, end=2, step=0.001, figsize=(10,16), img_path=None, dpi=600):
     fig = plt.figure(figsize=figsize)
     linkage_matrix = sch.linkage(vecs, metric=linkage_metric, method=linkage_method)
     shape_of_linkage = linkage_matrix.shape
@@ -156,7 +156,7 @@ def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="a
     outer_silhouette_score = []
     outer_distortion_score = []
     for i in np.arange(start,end,step):
-        outer_relation, inner_relation = cluster(linkage_matrix, i, 1)
+        outer_relation, inner_relation = cluster(linkage_matrix, i, 2)
         num_of_clusters = len(outer_relation)
         if 2<=num_of_clusters<=shape_of_linkage[0]:
             flated_dict, _ = flat(outer_relation, inner_relation, shape_of_linkage[0]+1, verbose=False)
@@ -224,7 +224,7 @@ def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="a
     else:
         elbow_value_2 = elbow_locator.knee
         elbow_score_2 = inner_distortion_score[inner_num.index(elbow_value_2)]
-        inner_distance = inner_distance_threshold_list[inner_num.index(elbow_value_1)]
+        inner_distance = inner_distance_threshold_list[inner_num.index(elbow_value_2)]
     fig.add_subplot(212)
     plt.plot(inner_num, inner_distortion_score, color="black", marker="o", linewidth=2, label="sum of squared distances")
     plt.axvline(elbow_value_2, color="red", linewidth=2, label="elbow at k=%d, score=%.3f"%(elbow_value_2, elbow_score_2), linestyle="--")
