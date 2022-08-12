@@ -146,7 +146,7 @@ def outer_silhouette_index(flated_dict, vecs, distance_metric):
     outer_vecs = vecs[flated_dict["index"]]
     return m1.silhouette_score(outer_vecs, flated_dict["outer"], metric=distance_metric)
 
-def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="average", start=0, end=2, step=0.001, figsize=(10,16), img_path=None, dpi=600, online=False):
+def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="average", start=0, end=2, step=0.001, figsize=(10,16), img_path=None, dpi=600, online=[False, False]):
     fig = plt.figure(figsize=figsize)
     linkage_matrix = sch.linkage(vecs, metric=linkage_metric, method=linkage_method)
     shape_of_linkage = linkage_matrix.shape
@@ -169,7 +169,7 @@ def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="a
     outer_distance_threshold_list.reverse()
     # outer_silhouette_score.reverse()
     outer_distortion_score.reverse()
-    elbow_locator = KneeLocator(outer_num, outer_distortion_score, curve="convex", direction="decreasing", online=online)
+    elbow_locator = KneeLocator(outer_num, outer_distortion_score, curve="convex", direction="decreasing", online=online[0])
     # elbow_locator = KneeLocator(outer_num, outer_distortion_score, curve_nature="convex", curve_direction="decreasing")
     if elbow_locator.knee is None:
         elbow_value_1 = None
@@ -210,7 +210,7 @@ def one_step_determine_distance(vecs, linkage_metric="cosine", linkage_method="a
     inner_distance_threshold_list.reverse()
     # inner_silhouette_score.reverse()
     inner_distortion_score.reverse()
-    elbow_locator = KneeLocator(inner_num, inner_distortion_score, curve="convex", direction="decreasing", online=online)
+    elbow_locator = KneeLocator(inner_num, inner_distortion_score, curve="convex", direction="decreasing", online=online[1])
     # elbow_locator = KneeLocator(inner_num, inner_distortion_score, curve_nature="convex", curve_direction="decreasing")
     if elbow_locator.knee is None:
         elbow_value_2 = None

@@ -5,7 +5,7 @@ import setuptools
 
 setuptools.setup(
     name="mlhCluster",
-    version="2.2.3",
+    version="2.2.4",
     author="ErwinLi",
     author_email="1779599839@qq.com",
     description="multi-layer hierarachical clustering",
