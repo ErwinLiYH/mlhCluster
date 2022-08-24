@@ -1,4 +1,4 @@
-from Kkit import ksort
+import Kkit
 import numpy as np
 from sklearn import metrics as m1
 import scipy.cluster.hierarchy as sch
@@ -50,7 +50,7 @@ def remove_duplicate(outer_relation, inner_relation, total_number, group_number,
             temp.append(__search_outer_and_inner_relation(outer_relation, inner_relation, j))
         appear_list, count_list = __conclude_list([relation[0:2] for relation in temp])
         if remove_mode=='full':
-            max_item = ksort.sort_multi_list(appear_list, count_list, by=1)[0][0]
+            max_item = Kkit.sort_multi_list(appear_list, count_list, by=1)[0][0]
             count = 0
             for j in temp:
                 if j[0:2] != max_item:
